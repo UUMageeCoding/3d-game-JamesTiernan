@@ -7,8 +7,9 @@ public class weaponShoot : MonoBehaviour
     [SerializeField] Sprite weaponFire;
     [SerializeField] GameObject projectile;
     [SerializeField] float cooldown = 0.5f;
-    [SerializeField] GameObject originPoint;
+    [SerializeField] Transform originPoint;
     float weaponTimer = 0f;
+    float drawTimer = 0f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -18,17 +19,27 @@ public class weaponShoot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         weaponTimer -= Time.deltaTime;
         if (weaponTimer <= 0)
         {
             UnityEngine.UI.Image weaponImage = GetComponent<UnityEngine.UI.Image>();
-            if (Input.GetMouseButton(0))
+            if (Input.GetMouseButtonDown(1))
             {
-                weaponImage.sprite = weaponAim;
+                weaponImage.transform.localScale = new Vector3(1,1,1);
+                drawTimer = 50f;
+                GetComponent<AudioSource>().Play();
             }
-            else if (Input.GetMouseButtonUp(0))
+            if (Input.GetMouseButton(1))
             {
-                Instantiate(projectile,originPoint.transform.position,originPoint.transform.rotation);
+                drawTimer -= 15 * Time.deltaTime;
+                if (drawTimer < 1){drawTimer = 1;}
+                weaponImage.sprite = weaponAim;
+                weaponImage.transform.localScale = new Vector3( 1+ ((50 - drawTimer) / 50) * .6f,1,1);
+            }
+            else if (Input.GetMouseButtonUp(1))
+            {
+                Instantiate(projectile,originPoint.transform.position,originPoint.transform.rotation).GetComponent<bullet>().speed = 50 - drawTimer;
                 weaponImage.sprite = weaponFire;
                 weaponTimer = cooldown;
             }
