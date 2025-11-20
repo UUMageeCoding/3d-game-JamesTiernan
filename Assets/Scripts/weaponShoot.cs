@@ -35,9 +35,9 @@ public class weaponShoot : MonoBehaviour
             if (Input.GetMouseButton(1))
             {
                 drawTimer -= drawSpeed * Time.deltaTime;
-                if (drawTimer < 1){drawTimer = 1;}
+                if (drawTimer < 0){drawTimer = 0;}
                 weaponImage.sprite = weaponAim;
-                weaponImage.transform.localScale = new Vector3( 1+ ((projectileSpeed - drawTimer) / projectileSpeed) * .6f,1,1);
+                weaponImage.transform.localScale = new Vector3( 1+ ((projectileSpeed - drawTimer) / projectileSpeed) * .3f,1,1);
             }
             else if (Input.GetMouseButtonUp(1))
             {
@@ -48,6 +48,7 @@ public class weaponShoot : MonoBehaviour
             else
             {
                 weaponImage.sprite = weaponIdle;
+                weaponImage.transform.localScale = new Vector3(1,1,1);
             }
         }
     }
