@@ -748,6 +748,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   impactfx: {fileID: 7139788035101259471, guid: c31884908fa756e42872ba2849c62dd7, type: 3}
   speed: 30
+  drag: 1.2
   damage: 0
 --- !u!54 &5364930404362844736
 Rigidbody:

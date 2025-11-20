@@ -4,8 +4,10 @@ public class bullet : MonoBehaviour
 {
     [SerializeField] GameObject impactfx;
     [SerializeField] public float speed;
+    [SerializeField] float drag;
     [SerializeField] public int damage;
     Rigidbody rb;
+    float gravity;
     bool hit = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -20,7 +22,17 @@ public class bullet : MonoBehaviour
     {
         if (!hit)
         {
-            rb.AddForce(gameObject.transform.forward * speed);
+            rb.angularVelocity += gameObject.transform.forward * speed * 0.5f;
+            rb.linearVelocity += gameObject.transform.forward * speed;
+            if (speed > 0)
+            {
+                speed -= drag * Time.deltaTime;
+            }
+            else
+            {
+                speed = 0;
+            }
+            
         }
     }
 

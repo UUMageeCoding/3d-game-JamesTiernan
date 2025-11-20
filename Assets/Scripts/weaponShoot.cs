@@ -6,6 +6,8 @@ public class weaponShoot : MonoBehaviour
     [SerializeField] Sprite weaponAim;
     [SerializeField] Sprite weaponFire;
     [SerializeField] GameObject projectile;
+    [SerializeField] float projectileSpeed;
+    [SerializeField] float drawSpeed;
     [SerializeField] float cooldown = 0.5f;
     [SerializeField] Transform originPoint;
     float weaponTimer = 0f;
@@ -27,19 +29,19 @@ public class weaponShoot : MonoBehaviour
             if (Input.GetMouseButtonDown(1))
             {
                 weaponImage.transform.localScale = new Vector3(1,1,1);
-                drawTimer = 50f;
+                drawTimer = projectileSpeed;
                 GetComponent<AudioSource>().Play();
             }
             if (Input.GetMouseButton(1))
             {
-                drawTimer -= 15 * Time.deltaTime;
+                drawTimer -= drawSpeed * Time.deltaTime;
                 if (drawTimer < 1){drawTimer = 1;}
                 weaponImage.sprite = weaponAim;
-                weaponImage.transform.localScale = new Vector3( 1+ ((50 - drawTimer) / 50) * .6f,1,1);
+                weaponImage.transform.localScale = new Vector3( 1+ ((projectileSpeed - drawTimer) / projectileSpeed) * .6f,1,1);
             }
             else if (Input.GetMouseButtonUp(1))
             {
-                Instantiate(projectile,originPoint.transform.position,originPoint.transform.rotation).GetComponent<bullet>().speed = 50 - drawTimer;
+                Instantiate(projectile,originPoint.transform.position,originPoint.transform.rotation).GetComponent<bullet>().speed = projectileSpeed - drawTimer;
                 weaponImage.sprite = weaponFire;
                 weaponTimer = cooldown;
             }
